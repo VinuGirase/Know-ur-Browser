@@ -74,7 +74,10 @@
             // Detect browser and version
             let browserName = "Unknown";
             let browserVersion = "Unknown";
-            if (/Chrome\/\d+/i.test(ua)) {
+            if (/Edg\/\d+/i.test(ua)) {
+                browserName = "Edge";
+                browserVersion = ua.match(/Edg\/([\d.]+)/)[1];
+            } else if (/Chrome\/\d+/i.test(ua)) {
                 browserName = "Chrome";
                 browserVersion = ua.match(/Chrome\/([\d.]+)/)[1];
             } else if (/Safari\/\d+/i.test(ua) && !/Chrome/i.test(ua)) {
@@ -83,9 +86,6 @@
             } else if (/Firefox\/\d+/i.test(ua)) {
                 browserName = "Firefox";
                 browserVersion = ua.match(/Firefox\/([\d.]+)/)[1];
-            } else if (/Edge\/\d+/i.test(ua)) {
-                browserName = "Edge";
-                browserVersion = ua.match(/Edge\/([\d.]+)/)[1];
             } else if (/MSIE|Trident/i.test(ua)) {
                 browserName = "Internet Explorer";
                 browserVersion = ua.match(/(MSIE [\d.]+|rv:[\d.]+)/)[0];
