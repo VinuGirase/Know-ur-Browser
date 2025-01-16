@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Information Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #4a90e2;
+        }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .info label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Device Information</h1>
+        <div class="info"><label>Device Type:</label> <span id="device-type"></span></div>
+        <div class="info"><label>Operating System:</label> <span id="os"></span></div>
+        <div class="info"><label>Browser Name:</label> <span id="browser-name"></span></div>
+        <div class="info"><label>Browser Version:</label> <span id="browser-version"></span></div>
+        <div class="info"><label>Screen Resolution:</label> <span id="screen-resolution"></span></div>
+        <div class="info"><label>Viewport Size:</label> <span id="viewport-size"></span></div>
+    </div>
+
+    <script>
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // Detect device type
+            let deviceType = "Desktop";
+            if (/Mobi|Android/i.test(ua)) {
+                deviceType = "Mobile Phone";
+            } else if (/Tablet|iPad/i.test(ua)) {
+                deviceType = "Tablet";
+            } else if (width < 1024) {
+                deviceType = "Laptop";
+            }
+
+            // Detect operating system
+            let os = "Unknown";
+            if (/Windows/i.test(ua)) os = "Windows";
+            else if (/Mac OS/i.test(ua)) os = "MacOS";
+            else if (/Android/i.test(ua)) os = "Android";
+            else if (/Linux/i.test(ua)) os = "Linux";
+            else if (/iPhone|iPad/i.test(ua)) os = "iOS";
+
+            // Detect browser and version
+            let browserName = "Unknown";
+            let browserVersion = "Unknown";
+            if (/Chrome\/\d+/i.test(ua)) {
+                browserName = "Chrome";
+                browserVersion = ua.match(/Chrome\/([\d.]+)/)[1];
+            } else if (/Safari\/\d+/i.test(ua) && !/Chrome/i.test(ua)) {
+                browserName = "Safari";
+                browserVersion = ua.match(/Version\/([\d.]+)/)[1];
+            } else if (/Firefox\/\d+/i.test(ua)) {
+                browserName = "Firefox";
+                browserVersion = ua.match(/Firefox\/([\d.]+)/)[1];
+            } else if (/Edge\/\d+/i.test(ua)) {
+                browserName = "Edge";
+                browserVersion = ua.match(/Edge\/([\d.]+)/)[1];
+            } else if (/MSIE|Trident/i.test(ua)) {
+                browserName = "Internet Explorer";
+                browserVersion = ua.match(/(MSIE [\d.]+|rv:[\d.]+)/)[0];
+            }
+
+            // Screen resolution
+            const screenResolution = `${screen.width}x${screen.height}`;
+
+            // Viewport size
+            const viewportSize = `${width}x${height}`;
+
+            // Populate the HTML
+            document.getElementById("device-type").textContent = deviceType;
+            document.getElementById("os").textContent = os;
+            document.getElementById("browser-name").textContent = browserName;
+            document.getElementById("browser-version").textContent = browserVersion;
+            document.getElementById("screen-resolution").textContent = screenResolution;
+            document.getElementById("viewport-size").textContent = viewportSize;
+        }
+
+        // Call the function on page load
+        getDeviceInfo();
+    </script>
+</body>
+</html>
